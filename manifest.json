@@ -1,0 +1,35 @@
+{
+  "name": "ExKOT for WEB",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "An extension for King of Time",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';",
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self';"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://s2.ta.kingoftime.jp/independent/recorder2/personal/*",
+        "*://s2.kingtime.jp/independent/recorder/personal/*"
+      ],
+      "js": ["js/loader.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["dist/bundle.js"],
+      "matches": ["https://s2.ta.kingoftime.jp/*", "https://s2.kingtime.jp/*"]
+    }
+  ],
+  "permissions": ["storage"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "public/icon16.png",
+    "48": "public/icon48.png",
+    "128": "public/icon128.png"
+  }
+}

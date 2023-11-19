@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook Settings</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Discord Webhook Settings</h2>
+        <form id="discordSettingsForm">
+            <label for="webhookUrl">Discord Webhook URL:</label>
+            <input type="text" id="webhookUrl" name="webhookUrl" required>
+
+            <label for="yourName">Your Name:</label>
+            <input type="text" id="yourName" name="yourName" required>
+
+            <label for="comingMessage">出勤時のメッセージ:</label>
+            <input type="text" id="comingMessage" name="comingMessage">
+
+            <label for="leavingMessage">退勤時のメッセージ:</label>
+            <input type="text" id="leavingMessage" name="leavingMessage">
+
+            <button id="saveBtn" type="button">Save</button>
+        </form>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
