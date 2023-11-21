@@ -5,6 +5,13 @@ const channelName = "discord";
 let isComingButtonDisabled = false;
 let isLeavingButtonDisabled = true;
 
+// ローディング画面を表示
+const loadingElement = document.createElement('iframe');
+loadingElement.src = chrome.runtime.getURL('loading.html');
+document.body.appendChild(loadingElement);
+// DOM生成に1sまって、イベントリスナーを登録
+setTimeout(setEventListener, 1000);
+
 async function getChromeStorageData() {
   const items = await chrome.storage.sync.get([
     "discordWebhookURL",
@@ -20,6 +27,7 @@ async function getChromeStorageData() {
   return items;
 }
 
+retryTime = 0
 // KOTのタイムレコーダーページでイベントリスナーを設定
 function setEventListener() {
   const recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
@@ -28,49 +36,51 @@ function setEventListener() {
   // 退勤ボタン
   const leavingBtn = recordBtnOuters[1];
 
-  if (comingBtn) {
-    comingBtn.addEventListener(
-      "click",
-      async function () {
-        if (!isComingButtonDisabled) {
-          isComingButtonDisabled = true;
-          isLeavingButtonDisabled = false;
-          await sendAttendanceReport(1);
-          // ボタンの無効化処理
-          comingBtn.style.display = "none";
-          // 退勤ボタンの活性化
-          leavingBtn.style.display = "";
-        }
-      },
-      false
-    );
+  if (retryTime < 2 && (!comingBtn || !leavingBtn) ) {
+    setEventListener()
+    retryTime++
   }
 
-  if (leavingBtn) {
-    leavingBtn.addEventListener(
-      "click",
-      async function () {
-        if (!isLeavingButtonDisabled) {
-          isLeavingButtonDisabled = true;
-          isComingButtonDisabled = false;
-          await sendAttendanceReport(0);
-          // ボタンの無効化処理
-          leavingBtn.style.display = "none";
-          // 出勤ボタンの活性化
-          comingBtn.style.display = "";
-        }
-      },
-      false
-    );
-  }
+  comingBtn.addEventListener(
+    "click",
+    async function () {
+      if (!isComingButtonDisabled) {
+        isComingButtonDisabled = true;
+        isLeavingButtonDisabled = false;
+        await sendAttendanceReport(1);
+        // ボタンの無効化処理
+        comingBtn.style.display = "none";
+        // 退勤ボタンの活性化
+        leavingBtn.style.display = "";
+      }
+    },
+    false
+  );
+
+  leavingBtn.addEventListener(
+    "click",
+    async function () {
+      if (!isLeavingButtonDisabled) {
+        isLeavingButtonDisabled = true;
+        isComingButtonDisabled = false;
+        await sendAttendanceReport(0);
+        // ボタンの無効化処理
+        leavingBtn.style.display = "none";
+        // 出勤ボタンの活性化
+        comingBtn.style.display = "";
+      }
+    },
+    false
+  );
   // 退勤ボタンは初期時押せない
-  if(isLeavingButtonDisabled && leavingBtn){
+  if(isLeavingButtonDisabled){
     leavingBtn.style.display = "none";
   }
   window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+  // ローディング画面を非表示
+  const loadingElement = document.getElementById('loading');
+  loadingElement?.style.display = 'none';
 }
-
-setTimeout(setEventListener, 1000);
 
 async function sendAttendanceReport(status) {
   const { discordWebhookURL, name, comingMessage, leavingMessage } = await getChromeStorageData();
@@ -101,9 +111,4 @@ async function sendAttendanceReport(status) {
       window.alert("メッセージを正常に送信できませんでした。");
     }
   });
-}
-
-function decodeBase64Id(encodedId) {
-  const decodedString = atob(encodedId);
-  return decodedString;
 }

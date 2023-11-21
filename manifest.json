@@ -18,11 +18,11 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["dist/bundle.js"],
+      "resources": ["dist/bundle.js", "loading.html"],
       "matches": ["https://s2.ta.kingoftime.jp/*", "https://s2.kingtime.jp/*"]
     }
   ],
-  "permissions": ["storage"],
+  "permissions": ["activeTab", "storage"],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
