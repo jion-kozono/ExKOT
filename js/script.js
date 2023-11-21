@@ -22,11 +22,14 @@ async function getChromeStorageData() {
 
 // KOTのタイムレコーダーページでイベントリスナーを設定
 function setEventListener() {
-  const comingElem = document.querySelector(".record-btn-inner.record-clock-in");
-  const leavingElem = document.querySelector(".record-btn-inner.record-clock-out");
+  const recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
+  // 出勤ボタン
+  const comingBtn = recordBtnOuters[0];
+  // 退勤ボタン
+  const leavingBtn = recordBtnOuters[1];
 
-  if (comingElem) {
-    comingElem.addEventListener(
+  if (comingBtn) {
+    comingBtn.addEventListener(
       "click",
       async function () {
         if (!isComingButtonDisabled) {
@@ -34,19 +37,17 @@ function setEventListener() {
           isLeavingButtonDisabled = false;
           await sendAttendanceReport(1);
           // ボタンの無効化処理
-          comingElem.style.pointerEvents = "none";
-          comingElem.style.background = "#8e8e8e";
-          console.log({disabled: comingElem.style.pointerEvents})
+          comingBtn.style.display = "none";
           // 退勤ボタンの活性化
-          leavingElem.style.pointerEvents = "auto";
+          leavingBtn.style.display = "";
         }
       },
       false
     );
   }
 
-  if (leavingElem) {
-    leavingElem.addEventListener(
+  if (leavingBtn) {
+    leavingBtn.addEventListener(
       "click",
       async function () {
         if (!isLeavingButtonDisabled) {
@@ -54,23 +55,17 @@ function setEventListener() {
           isComingButtonDisabled = false;
           await sendAttendanceReport(0);
           // ボタンの無効化処理
-          leavingElem.style.pointerEvents = "none";
-          leavingElem.style.background = "#8e8e8e";
-          removeClass(comingElem, ["record-btn-inner-hover", "record-clock-out-inner-hover"])
+          leavingBtn.style.display = "none";
           // 出勤ボタンの活性化
-          comingElem.style.pointerEvents = "auto";
+          comingBtn.style.display = "";
         }
       },
       false
     );
   }
   // 退勤ボタンは初期時押せない
-  if(isLeavingButtonDisabled){
-    leavingElem.style.pointerEvents = "none";
-    leavingElem.style.background = "#8e8e8e";
-  }else{
-    leavingElem.style.pointerEvents = "auto";
-    leavingElem.style.background = undefined;
+  if(isLeavingButtonDisabled && leavingBtn){
+    leavingBtn.style.display = "none";
   }
   window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
 }
@@ -108,10 +103,7 @@ async function sendAttendanceReport(status) {
   });
 }
 
-function removeClass(element, classNames) {
-  if (element.classList) {
-    classNames.forEach(className => {
-      element.classList.remove(className);
-    });
-  }
+function decodeBase64Id(encodedId) {
+  const decodedString = atob(encodedId);
+  return decodedString;
 }
