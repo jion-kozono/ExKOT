@@ -3,9 +3,6 @@
 ## Setup
 
 ```sh
-# set environment
-cp .env.default .env
-
 # package install
 pnpm i
 
