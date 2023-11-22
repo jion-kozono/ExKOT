@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2021", "DOM"],
+    "target": "ES2021",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "strict": true,
+    "baseUrl": "./src",
+    // "paths": {
+    //   "@application/*": ["application/*"],
+    //   "@types/*": ["@types/*"],
+    //   "@domain/*": ["domain/*"],
+    //   "@infra/*": ["infra/*"]
+    // }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["generated/*", "js/*"]
+}
