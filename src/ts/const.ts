@@ -5,3 +5,4 @@ export const defaultMessage = {
 
 export const channelName = "discord";
 export const channelDomain = "https://discord.com/api/webhooks/";
+export const APP_ENV: "dev" | "prod" = "dev";

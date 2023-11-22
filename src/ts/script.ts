@@ -1,4 +1,4 @@
-import { channelDomain, channelName, defaultMessage } from "./const";
+import { APP_ENV, channelDomain, channelName, defaultMessage } from "./const";
 
 const loadingElement = document.createElement("div");
 loadingElement.innerHTML = `
@@ -66,20 +66,9 @@ const getChromeStorageData = async (): Promise<{
 
 // KOTのタイムレコーダーページでイベントリスナーを設定
 function setEventListener() {
-  const testBtn = document.createElement("button") as HTMLButtonElement;
-  testBtn.innerText = "TEST BUTTON";
-  testBtn.style.position = "fixed";
-  testBtn.style.top = "50%";
-  testBtn.style.left = "50%";
-  testBtn.style.transform = "translate(-50%, -50%)";
-  testBtn.addEventListener(
-    "click",
-    async function () {
-      await sendAttendanceReport(1);
-    },
-    false,
-  );
-  document.body.appendChild(testBtn);
+  if (APP_ENV === "dev") {
+    setTestButtonInDOM();
+  }
 
   const recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
   // 出勤ボタン
@@ -163,3 +152,20 @@ async function sendAttendanceReport(status: 0 | 1) {
     }
   });
 }
+
+const setTestButtonInDOM = () => {
+  const testBtn = document.createElement("button") as HTMLButtonElement;
+  testBtn.innerText = "TEST BUTTON";
+  testBtn.style.position = "fixed";
+  testBtn.style.top = "50%";
+  testBtn.style.left = "50%";
+  testBtn.style.transform = "translate(-50%, -50%)";
+  testBtn.addEventListener(
+    "click",
+    async function () {
+      await sendAttendanceReport(1);
+    },
+    false,
+  );
+  document.body.appendChild(testBtn);
+};

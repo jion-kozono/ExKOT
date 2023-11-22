@@ -1,4 +1,4 @@
-# For Developer
+# For Developers
 
 ## Setup
 
@@ -7,5 +7,5 @@
 pnpm i
 
 # build
-pnpm build
+pnpm build:d
 ```
