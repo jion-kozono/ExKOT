@@ -4,6 +4,6 @@ package.json
 package-lock.json
 tsconfig.json
 tsconfig.eslint.json
-jest.config.js
+# jest.config.js
 user_model
 reco_model

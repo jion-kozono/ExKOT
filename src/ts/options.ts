@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("saveBtn")?.addEventListener("click", saveOptionSettings);
   // HTMLが読み込まれたら初期値を設定
   chrome.storage.sync.get(
-    ["discordWebhookURL", "comingMessage", "leavingMessage"],
+    ["discordWebhookUrl", "comingMessage", "leavingMessage"],
     function (items) {
       const url = document.getElementById("webhookUrl") as HTMLInputElement;
-      url.value = items.discordWebhookURL || "";
+      url.value = items.discordWebhookUrl || "";
       const comingMessage = document.getElementById("comingMessage") as HTMLInputElement;
       comingMessage.value = items.comingMessage || "";
       const leavingMessage = document.getElementById("leavingMessage") as HTMLInputElement;
@@ -28,7 +28,7 @@ const saveOptionSettings = () => {
   // 保存後、必要であれば再度初期値を設定する
   chrome.storage.sync.set(
     {
-      discordWebhookURL: webhookUrl,
+      discordWebhookUrl: webhookUrl,
       comingMessage: comingMessage || defaultMessage.defaultComingMessage,
       leavingMessage: leavingMessage || defaultMessage.defaultLeavingMessage,
     },

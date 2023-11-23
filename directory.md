@@ -2,41 +2,39 @@
 
 <pre>
 
+.
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── README.md
-├── build.sh // generate dist
-├── node_modules
-├── dist // after executing `yarn build:d or yarn build:p`
-│   ├── entry
-│   │   ├── index.js
-│   │   └── loader.js
-│   ├── html
-│   │   ├── loading.html
-│   │   └── options.html
-│   ├── js
-│   │   ├── const.js
-│   │   ├── options.js
-│   │   ├── script.js
-│   │   └── style.js
+├── build
+│   └── tsconfig.tsbuildinfo
+├── build.sh
+├── directory.md
+├── dist
+│   ├── assets
+│   │   ├── const-xxx.js
+│   │   ├── options-xxx.css
+│   │   ├── options.html-xxx.js
+│   │   ├── script.ts-xxx.js
+│   │   └── script.ts-loader-xxxx.js
 │   ├── manifest.json
-│   └── static
-│       ├── icon128.png
-│       ├── icon16.png
-│       └── icon48.png
-├── manifest.json // required for Chrome extension
+│   └── src
+│       ├── html
+│       │   └── options.html
+│       └── public
+│           ├── icon128.png
+│           ├── icon16.png
+│           └── icon48.png
+├── manifest.config.ts
 ├── package.json
 ├── pnpm-lock.yaml
 ├── src
 │   ├── css
 │   │   └── style.css
-│   ├── entry
-│   │   ├── index.js
-│   │   └── loader.js
 │   ├── html
 │   │   ├── loading.html
 │   │   └── options.html
-│   ├── static
+│   ├── public
 │   │   ├── icon128.png
 │   │   ├── icon16.png
 │   │   └── icon48.png
@@ -46,5 +44,6 @@
 │       ├── script.ts
 │       └── style.ts
 ├── tsconfig.json
-└── webpack.config.mjs
+└── vite.config.ts
+
 </pre>
