@@ -92,6 +92,10 @@ Contributions to the project are welcome! For information on how to contribute, 
 #### セットアップ
 
 ```sh
+# using Volta and pnpm
+# See doc: https://docs.volta.sh/guide/ and install volta on your PC.
+# install pnpm via volta: https://docs.volta.sh/advanced/pnpm
+
 # package install
 pnpm i
 
