@@ -29,10 +29,17 @@ To use this Chrome extension, follow these steps:
      - currently only for Discord
    - Message for clocking in (optional)
    - Message for clocking out (optional)
+
      Save the settings.
+     <img src="images/option_setting.png">
 
 3. Verify that the extension is enabled, and navigate to the actual KOT clocking page.
 4. The leave button should be hidden! Now, let's press the attendance button and verify that the configured message is sent to the channel!
+
+- When initially loaded and clocked out
+  <img src="images/coming_btn.png">
+- when clocked in
+  <img src="images/leaving_btn.png">
 
 ## For Developers
 
@@ -82,12 +89,21 @@ Contributions to the project are welcome! For information on how to contribute, 
 
 1. Chrome Web Storeから拡張機能をインストールします。
 2. オプションパネルで以下の設定を行います：
+
    - WebhookのURL（必須）
    - 出勤時のメッセージ（任意）
    - 退勤時のメッセージ（任意）
+
      設定を保存します。
+     <img src="images/option_setting.png">
+
 3. 拡張機能が有効になっていることを確認し、実際にKOTの打刻ページに移動しましょう。
 4. 退勤ボタンが非表示になっているはずです！それでは出勤ボタンを押して、設定したメッセージをチャンネルに送られることを確認しましょう！
+
+- 初期ロード時、退勤打刻時
+  <img src="images/coming_btn.png">
+- 出勤打刻時
+  <img src="images/leaving_btn.png">
 
 ### 開発者向け
 
