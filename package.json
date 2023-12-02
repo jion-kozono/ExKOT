@@ -2,8 +2,9 @@
   "packageManager": "pnpm@8.10.5",
   "type": "module",
   "scripts": {
-    "build:d": "export APP_ENV=dev && bash build.sh",
-    "build:p": "export APP_ENV=prod && bash build.sh"
+    "build:d": "export APP_ENV=dev && bash scripts/build.sh",
+    "build:p": "export APP_ENV=prod && bash scripts/build.sh && scripts/zip.sh",
+    "tree": "tree -I 'node_modules|dist.zip'"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "2.0.0-beta.21",

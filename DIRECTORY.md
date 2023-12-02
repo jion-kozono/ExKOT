@@ -4,19 +4,18 @@
 
 .
 ├── CONTRIBUTING.md
+├── DIRECTORY.md
 ├── LICENSE
 ├── README.md
 ├── build
 │   └── tsconfig.tsbuildinfo
-├── build.sh
-├── DIRECTORY.md
 ├── dist
 │   ├── assets
 │   │   ├── const-0c6b0ab0.js
 │   │   ├── options-1ef152a8.css
 │   │   ├── options.html-378799ca.js
-│   │   ├── script.ts-23e43f0f.js
-│   │   └── script.ts-loader-980b2f97.js
+│   │   ├── script.ts-0a6208de.js
+│   │   └── script.ts-loader-91b336cb.js
 │   ├── manifest.json
 │   └── src
 │       ├── html
@@ -31,6 +30,9 @@
 ├── manifest.config.ts
 ├── package.json
 ├── pnpm-lock.yaml
+├── scripts
+│   ├── build.sh
+│   └── zip.sh
 ├── src
 │   ├── css
 │   │   └── style.css
@@ -49,6 +51,7 @@
 │       ├── options.ts
 │       ├── script.ts
 │       └── style.ts
+├── test_modified.md
 ├── tsconfig.json
 └── vite.config.ts
 
