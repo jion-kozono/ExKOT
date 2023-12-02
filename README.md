@@ -40,6 +40,10 @@ To use this Chrome extension, follow these steps:
 
 ### Setup
 
+- using Volta and pnpm
+- See doc: https://docs.volta.sh/guide/ and install volta on your PC.
+- install pnpm via volta: https://docs.volta.sh/advanced/pnpm
+
 ```sh
 # package install
 pnpm i
@@ -91,11 +95,11 @@ Contributions to the project are welcome! For information on how to contribute, 
 
 #### セットアップ
 
-```sh
-# using Volta and pnpm
-# See doc: https://docs.volta.sh/guide/ and install volta on your PC.
-# install pnpm via volta: https://docs.volta.sh/advanced/pnpm
+- using Volta and pnpm
+- See doc: https://docs.volta.sh/guide/ and install volta on your PC.
+- install pnpm via volta: https://docs.volta.sh/advanced/pnpm
 
+```sh
 # package install
 pnpm i
 
