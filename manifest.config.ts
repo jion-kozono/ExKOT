@@ -24,6 +24,16 @@ export const manifest = defineManifest({
     page: "src/html/options.html",
     open_in_tab: true,
   },
+  action: {
+    default_title: "ExKOT",
+    default_popup: "src/html/options.html",
+    default_icon: {
+      "32": "src/public/ExKOT32.png",
+      "72": "src/public/ExKOT72.png",
+      "128": "src/public/ExKOT128.png",
+      "512": "src/public/ExKOT512.png",
+    },
+  },
   icons: {
     "16": "src/public/ExKOT16.png",
     "48": "src/public/ExKOT48.png",
