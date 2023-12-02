@@ -19,7 +19,7 @@ export const manifest = defineManifest({
       js: ["src/ts/script.ts"],
     },
   ],
-  permissions: ["activeTab", "storage"],
+  permissions: ["storage"],
   options_ui: {
     page: "src/html/options.html",
     open_in_tab: true,
