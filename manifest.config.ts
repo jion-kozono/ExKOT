@@ -4,7 +4,7 @@ import { defineManifest } from "@crxjs/vite-plugin";
 export const manifest = defineManifest({
   manifest_version: 3,
   name: "ExKOT for WEB",
-  description: "An extension for King of Time",
+  description: "The extension for King of Time",
   version: "1.0.0",
   content_security_policy: {
     extension_pages: "script-src 'self'; object-src 'self';",
