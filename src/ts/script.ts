@@ -1,37 +1,7 @@
-import { APP_ENV, channelDomain, channelName, defaultMessage } from "./const";
+import { APP_ENV, channelDomain, channelName, defaultMessage, innerHTML } from "./const";
 
 const loadingElement = document.createElement("div");
-loadingElement.innerHTML = `
-  <style>
-    #myLoading {
-      display: flex;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 500;
-    }
-    .loader {
-      border: 4px solid #f3f3f3; /* Light grey */
-      border-top: 4px solid #3498db; /* Blue */
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 2s linear infinite; /* 回転アニメーションを追加 */
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
-  <div id="myLoading">
-    <div class="loader"></div>
-  </div>
-`;
+loadingElement.innerHTML = innerHTML;
 document.body.appendChild(loadingElement);
 
 let isComingButtonDisabled = false;
