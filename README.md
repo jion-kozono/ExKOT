@@ -1,7 +1,7 @@
 # ExKOT
 
-- [English Version](##English-Version)
-- [日本語版](##日本語版)
+- [English Version](#English-Version)
+- [日本語版](#日本語版)
 
 ## English Version
 
