@@ -1,6 +1,6 @@
 # ExKOT
 
-- [English Version](#English-Version)
+- [English Version](#english-version)
 - [日本語版](#日本語版)
 
 ## English Version
