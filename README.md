@@ -36,7 +36,7 @@ To use this Chrome extension, follow these steps:
 
 ## For Developers
 
-- See [Directory Structure](./directory.md)
+- See [Directory Structure](./DIRECTORY.md)
 
 ### Setup
 
@@ -91,7 +91,7 @@ Contributions to the project are welcome! For information on how to contribute, 
 
 ### 開発者向け
 
-- [Directory Structure](./directory.md)を参照
+- [Directory Structure](./DIRECTORY.md)を参照
 
 #### セットアップ
 

@@ -9,7 +9,7 @@
 ├── build
 │   └── tsconfig.tsbuildinfo
 ├── build.sh
-├── directory.md
+├── DIRECTORY.md
 ├── dist
 │   ├── assets
 │   │   ├── const-0c6b0ab0.js
