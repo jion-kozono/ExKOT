@@ -25,8 +25,8 @@ export const manifest = defineManifest({
     open_in_tab: true,
   },
   icons: {
-    "16": "src/public/icon16.png",
-    "48": "src/public/icon48.png",
-    "128": "src/public/icon128.png",
+    "16": "src/public/ExKOT16.png",
+    "48": "src/public/ExKOT48.png",
+    "128": "src/public/ExKOT128.png",
   },
 });

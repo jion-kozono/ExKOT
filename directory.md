@@ -22,9 +22,9 @@
 │       ├── html
 │       │   └── options.html
 │       └── public
-│           ├── icon128.png
-│           ├── icon16.png
-│           └── icon48.png
+│           ├── ExKOT128.png
+│           ├── ExKOT16.png
+│           └── ExKOT48.png
 ├── manifest.config.ts
 ├── package.json
 ├── pnpm-lock.yaml
@@ -35,9 +35,9 @@
 │   │   ├── loading.html
 │   │   └── options.html
 │   ├── public
-│   │   ├── icon128.png
-│   │   ├── icon16.png
-│   │   └── icon48.png
+│   │   ├── ExKOT128.png
+│   │   ├── ExKOT16.png
+│   │   └── ExKOT48.png
 │   └── ts
 │       ├── const.ts
 │       ├── options.ts
