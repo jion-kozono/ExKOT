@@ -1,5 +1,8 @@
 # ExKOT
 
+- [English Version](##English-Version)
+- [日本語版](##日本語版)
+
 ## English Version
 
 - This project is intended to be published as a Chrome extension.
@@ -70,7 +73,7 @@ This project is licensed under the [License Name]. For more details, please see 
 
 Contributions to the project are welcome! For information on how to contribute, please see the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
-## Japanese Version
+## 日本語版
 
 このプロジェクトはChrome拡張機能として公開しています。
 
