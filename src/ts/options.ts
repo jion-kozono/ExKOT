@@ -2,6 +2,7 @@ import { channelDomain, defaultMessage } from "./const";
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("saveBtn")?.addEventListener("click", saveOptionSettings);
+  document.getElementById("closeBtn")?.addEventListener("click", closeWindow);
   // HTMLが読み込まれたら初期値を設定
   chrome.storage.sync.get(
     ["discordWebhookUrl", "comingMessage", "leavingMessage"],
@@ -16,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 });
 
+const closeWindow = () => {
+  window.close();
+};
 const saveOptionSettings = () => {
   const webhookUrl = (document.getElementById("webhookUrl") as HTMLInputElement)?.value;
   const comingMessage = (document.getElementById("comingMessage") as HTMLInputElement)?.value;
@@ -34,6 +38,7 @@ const saveOptionSettings = () => {
     },
     function () {
       alert("Settings saved!");
+      closeWindow();
     },
   );
 };

@@ -5,7 +5,6 @@ export const defaultMessage = {
 
 export const channelName = "discord";
 export const channelDomain = "https://discord.com/api/webhooks/";
-export const APP_ENV: "dev" | "prod" = "dev";
 export const innerHTML = `
   <style>
     #myLoading {
@@ -37,3 +36,4 @@ export const innerHTML = `
     <div class="loader"></div>
   </div>
 `;
+export const APP_ENV: "dev" | "prod" = "dev";
