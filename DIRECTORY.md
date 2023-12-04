@@ -11,11 +11,11 @@
 │   └── tsconfig.tsbuildinfo
 ├── dist
 │   ├── assets
-│   │   ├── const-0c6b0ab0.js
-│   │   ├── options-1ef152a8.css
-│   │   ├── options.html-378799ca.js
-│   │   ├── script.ts-0a6208de.js
-│   │   └── script.ts-loader-91b336cb.js
+│   │   ├── const-83d51e12.js
+│   │   ├── options-63d8a5d6.css
+│   │   ├── options.html-fa8f671a.js
+│   │   ├── script.ts-dd401cd4.js
+│   │   └── script.ts-loader-700b5b21.js
 │   ├── manifest.json
 │   └── src
 │       ├── html
@@ -27,6 +27,10 @@
 │           ├── ExKOT48.png
 │           ├── ExKOT512.png
 │           └── ExKOT72.png
+├── images
+│   ├── coming_btn.png
+│   ├── leaving_btn.png
+│   └── option_setting.png
 ├── manifest.config.ts
 ├── package.json
 ├── pnpm-lock.yaml
@@ -49,8 +53,7 @@
 │   └── ts
 │       ├── const.ts
 │       ├── options.ts
-│       ├── script.ts
-│       └── style.ts
+│       └── script.ts
 ├── test_modified.md
 ├── tsconfig.json
 └── vite.config.ts
