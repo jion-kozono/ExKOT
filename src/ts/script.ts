@@ -1,17 +1,21 @@
-import { APP_ENV, channelDomain, channelName, defaultMessage, innerHTML } from "./const";
+import { setTestButtonInDOM } from "./components/TestButton";
+import { APP_ENV, channelDomain, channelName, defaultMessage, innerHTML, messages } from "./const";
 
 const loadingElement = document.createElement("div");
 loadingElement.innerHTML = innerHTML;
 document.body.appendChild(loadingElement);
 
+let recordBtnOuters: NodeListOf<Element>;
+// 出勤ボタン
+let comingBtn: HTMLElement;
+// 退勤ボタン
+let leavingBtn: HTMLElement;
+
 let isComingButtonDisabled = false;
 let isLeavingButtonDisabled = true;
 
-// DOM生成に1sまって、イベントリスナーを登録
-setTimeout(setEventListener, 1000);
-
-// chrome拡張のストレージからデータ取得
-const getChromeStorageData = async (): Promise<{
+// chrome拡張のストレージから設定データ取得
+const getSettingsFromChromeStorage = async (): Promise<{
   discordWebhookUrl: string;
   name: string;
   comingMessage: string;
@@ -34,47 +38,65 @@ const getChromeStorageData = async (): Promise<{
   return items;
 };
 
-// KOTのタイムレコーダーページでイベントリスナーを設定
-function setEventListener() {
-  if (APP_ENV === "dev") {
-    setTestButtonInDOM();
+// 初期ロード時にchrome拡張のストレージから出勤ステータス取得
+const getAttendanceStatusFromChromeStorage = async (): Promise<boolean | undefined> => {
+  const items = (await chrome.storage.sync.get(["attendanceStatus"])) as {
+    attendanceStatus: boolean;
+  };
+
+  const attendanceStatus = items.attendanceStatus;
+  // TODO* console.oog(外す)
+  console.log({ attendanceStatus });
+  if (attendanceStatus) {
+    disableButton(true);
+    window.alert("現在出勤中です。");
   }
 
-  const recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
+  return attendanceStatus;
+};
+
+const setAttendanceStatusToChromeStorage = (attendanceStatus: boolean): void => {
+  // 保存後、必要であれば再度初期値を設定する
+  chrome.storage.sync.set({
+    attendanceStatus,
+  });
+};
+
+// KOTのタイムレコーダーページでイベントリスナーを設定
+async function setEventListener() {
+  if (APP_ENV === "dev") {
+    setTestButtonInDOM(sendAttendanceReport);
+  }
+
+  recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
   // 出勤ボタン
-  const comingBtn = recordBtnOuters[0] as HTMLElement;
+  comingBtn = recordBtnOuters[0] as HTMLElement;
   // 退勤ボタン
-  const leavingBtn = recordBtnOuters[1] as HTMLElement;
+  leavingBtn = recordBtnOuters[1] as HTMLElement;
+
+  await getAttendanceStatusFromChromeStorage();
 
   if (!comingBtn || !leavingBtn) return;
 
+  // 出勤ボタン押下時
   comingBtn.addEventListener(
     "click",
     async function () {
       if (!isComingButtonDisabled) {
-        isComingButtonDisabled = true;
-        isLeavingButtonDisabled = false;
-        await sendAttendanceReport(1);
-        // ボタンの無効化処理
-        comingBtn.style.display = "none";
-        // 退勤ボタンの活性化
-        leavingBtn.style.display = "";
+        disableButton(true);
+        await sendAttendanceReport(true);
       }
     },
     false,
   );
 
+  // 退勤ボタン押下時
   leavingBtn.addEventListener(
     "click",
     async function () {
       if (!isLeavingButtonDisabled) {
-        isLeavingButtonDisabled = true;
-        isComingButtonDisabled = false;
-        await sendAttendanceReport(0);
-        // ボタンの無効化処理
-        leavingBtn.style.display = "none";
-        // 出勤ボタンの活性化
-        comingBtn.style.display = "";
+        disableButton(false);
+        await sendAttendanceReport(false);
       }
     },
     false,
@@ -83,7 +105,14 @@ function setEventListener() {
   if (isLeavingButtonDisabled) {
     leavingBtn.style.display = "none";
   }
-  window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+  const { discordWebhookUrl } = await getSettingsFromChromeStorage();
+
+  if (!discordWebhookUrl?.startsWith(channelDomain)) {
+    window.alert(messages.URL_SETTING_ALERT);
+  } else {
+    window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+  }
+
   // ローディング画面を非表示
   const loadingElement = document.querySelector("#myLoading") as HTMLElement;
 
@@ -93,18 +122,19 @@ function setEventListener() {
 }
 
 //出勤、退勤ボタン押下時に処理を挿入
-async function sendAttendanceReport(status: 0 | 1) {
-  const { discordWebhookUrl, comingMessage, leavingMessage } = await getChromeStorageData();
+async function sendAttendanceReport(attendanceStatus: boolean) {
+  setAttendanceStatusToChromeStorage(attendanceStatus);
+  const { discordWebhookUrl, comingMessage, leavingMessage } = await getSettingsFromChromeStorage();
 
   if (!discordWebhookUrl?.startsWith(channelDomain)) {
     window.alert(`
-    勤怠報告をするには、拡張機能の「オプション画面」にて送信したいチャンネルのwebhookのUrlを指定する必要があります。
-    打刻は正常に行われています。
+    ${messages.URL_SETTING_ALERT}
+    ${messages.SUCCESS_CLOCKED}
     `);
     return;
   }
 
-  const message = status ? comingMessage : leavingMessage;
+  const message = attendanceStatus ? comingMessage : leavingMessage;
   const param = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -118,24 +148,28 @@ async function sendAttendanceReport(status: 0 | 1) {
       window.alert(`${channelName}チャネルに"${message}"というメッセージが送信されました。`);
     } else {
       console.error("error", response);
-      window.alert("メッセージを正常に送信できませんでした。");
+      window.alert(messages.FAILED_SEND_MESSAGE);
     }
   });
 }
 
-const setTestButtonInDOM = () => {
-  const testBtn = document.createElement("button") as HTMLButtonElement;
-  testBtn.innerText = "TEST BUTTON";
-  testBtn.style.position = "fixed";
-  testBtn.style.top = "50%";
-  testBtn.style.left = "50%";
-  testBtn.style.transform = "translate(-50%, -50%)";
-  testBtn.addEventListener(
-    "click",
-    async function () {
-      await sendAttendanceReport(1);
-    },
-    false,
-  );
-  document.body.appendChild(testBtn);
+const disableButton = (attendanceStatus: boolean) => {
+  if (attendanceStatus) {
+    isComingButtonDisabled = true;
+    isLeavingButtonDisabled = false;
+    // ボタンの無効化処理
+    comingBtn.style.display = "none";
+    // 退勤ボタンの活性化
+    leavingBtn.style.display = "";
+  } else {
+    isLeavingButtonDisabled = true;
+    isComingButtonDisabled = false;
+    // ボタンの無効化処理
+    leavingBtn.style.display = "none";
+    // 出勤ボタンの活性化
+    comingBtn.style.display = "";
+  }
 };
+
+// DOM生成に1sまって、イベントリスナーを登録
+setTimeout(setEventListener, 1000);

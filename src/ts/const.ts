@@ -36,4 +36,10 @@ export const innerHTML = `
     <div class="loader"></div>
   </div>
 `;
+export const messages = {
+  URL_SETTING_ALERT:
+    "勤怠報告をするには、拡張機能の「オプション画面」にて送信したいチャンネルのwebhookのUrlを指定する必要があります。",
+  SUCCESS_CLOCKED: "打刻は正常に行われています。",
+  FAILED_SEND_MESSAGE: "メッセージを正常に送信できませんでした。",
+};
 export const APP_ENV: "dev" | "prod" = "dev";
