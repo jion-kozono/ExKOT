@@ -13,14 +13,20 @@
         <div id="closeBtn">✖︎</div>
       </div>
       <form id="discordSettingsForm">
-        <label for="webhookUrl">Discord Webhook URL:</label>
-        <input type="text" id="webhookUrl" name="webhookUrl" required />
+        <label for="discordWebhookUrl">Discord Webhook URL:</label>
+        <input type="text" id="discordWebhookUrl" name="discordWebhookUrl" required />
 
         <label for="comingMessage">出勤時のメッセージ:</label>
         <input type="text" id="comingMessage" name="comingMessage" />
 
         <label for="leavingMessage">退勤時のメッセージ:</label>
         <input type="text" id="leavingMessage" name="leavingMessage" />
+
+        <label for="breakingMessage">休憩時のメッセージ:</label>
+        <input type="text" id="breakingMessage" name="breakingMessage" />
+
+        <label for="restartingMessage">再開時のメッセージ:</label>
+        <input type="text" id="restartingMessage" name="restartingMessage" />
 
         <button id="saveBtn" type="button">Save</button>
       </form>
