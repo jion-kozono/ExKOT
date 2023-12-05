@@ -1,31 +1,19 @@
 import { ATTENDANCE_STATUS } from "../const";
 import { sendAttendanceReport } from "../send";
 
+import { setButtonStyle } from "./Button";
+
 let breakBtn: HTMLButtonElement | undefined;
-let restartButton: HTMLButtonElement | undefined;
-
-const createBreakBtn = (): HTMLButtonElement => {
-  breakBtn = document.createElement("breakButton") as HTMLButtonElement;
-  return breakBtn;
-};
-
-const createRestartBtn = (): HTMLButtonElement => {
-  restartButton = document.createElement("restartButton") as HTMLButtonElement;
-  return restartButton;
-};
+let restartBtn: HTMLButtonElement | undefined;
 
 /**
  * 休憩ボタンを表示する
  */
 export const setBreakButtonInDOM = () => {
-  if (!breakBtn) {
-    breakBtn = createBreakBtn();
-  }
-  breakBtn.innerText = "休憩";
-  breakBtn.style.position = "fixed";
-  breakBtn.style.top = "50%";
-  breakBtn.style.left = "50%";
-  breakBtn.style.transform = "translate(-50%, -50%)";
+  breakBtn = document.createElement("button") as HTMLButtonElement;
+  breakBtn.id = "breakButton";
+  breakBtn.textContent = "休憩";
+  setButtonStyle(breakBtn);
   breakBtn.addEventListener(
     "click",
     async function () {
@@ -42,40 +30,35 @@ export const setBreakButtonInDOM = () => {
  * 再開ボタンを表示する
  */
 
-const setRestartButtonInDOM = () => {
-  if (!restartButton) {
-    restartButton = createRestartBtn();
-  }
-  restartButton.innerText = "再開";
-  restartButton.style.position = "fixed";
-  restartButton.style.top = "50%";
-  restartButton.style.left = "50%";
-  restartButton.style.transform = "translate(-50%, -50%)";
-  restartButton.addEventListener(
+export const setRestartButtonInDOM = () => {
+  restartBtn = document.createElement("button") as HTMLButtonElement;
+  restartBtn.id = "restartButton";
+  restartBtn.textContent = "再開";
+  setButtonStyle(restartBtn);
+  restartBtn.addEventListener(
     "click",
     async function () {
       hideRestartButtonInDOM();
       await sendAttendanceReport(ATTENDANCE_STATUS.RESTART);
+      setBreakButtonInDOM();
     },
     false,
   );
-  document.body.appendChild(restartButton);
+  document.body.appendChild(restartBtn);
 };
 
 /**
  * 休憩ボタンを非表示にする
  */
 const hideBreakButtonInDOM = () => {
-  if (!breakBtn) {
-    breakBtn = createBreakBtn();
+  if (breakBtn) {
     // ボタンの無効化処理
     breakBtn.style.display = "none";
   }
 
-  if (!restartButton) {
-    restartButton = createRestartBtn();
+  if (restartBtn) {
     // 再開ボタンの活性化
-    restartButton.style.display = "";
+    restartBtn.style.display = "";
   }
 };
 
@@ -83,13 +66,11 @@ const hideBreakButtonInDOM = () => {
  * 再開ボタンを非表示にする
  */
 const hideRestartButtonInDOM = () => {
-  if (!restartButton) {
-    restartButton = createRestartBtn();
+  if (restartBtn) {
     // ボタンの無効化処理
-    restartButton.style.display = "none";
+    restartBtn.style.display = "none";
   }
-  if (!breakBtn) {
-    breakBtn = createBreakBtn();
+  if (breakBtn) {
     // 再開ボタンの活性化
     breakBtn.style.display = "";
   }
@@ -99,12 +80,12 @@ const hideRestartButtonInDOM = () => {
  * 休憩・再開ボタンを非表示にする
  */
 export const hideBreakAndRestartButtonInDOM = () => {
-  if (restartButton) {
+  if (restartBtn) {
     // ボタンの無効化処理
-    restartButton.style.display = "none";
+    restartBtn.style.display = "none";
   }
   if (breakBtn) {
     // 再開ボタンの活性化
-    breakBtn.style.display = "node";
+    breakBtn.style.display = "none";
   }
 };

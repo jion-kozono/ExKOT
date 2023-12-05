@@ -38,7 +38,7 @@ export const sendAttendanceReport = async (attendanceStatus: AttendanceStatusTye
       message = settingItemObject.breakingMessage;
       break;
     case ATTENDANCE_STATUS.RESTART:
-      message = settingItemObject.leavingMessage;
+      message = settingItemObject.restartingMessage;
       break;
     default:
       break;

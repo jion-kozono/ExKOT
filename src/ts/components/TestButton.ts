@@ -1,13 +1,12 @@
 import { ATTENDANCE_STATUS } from "../const";
 import { sendAttendanceReport } from "../send";
 
+import { setButtonStyle } from "./Button";
+
 export const setTestButtonInDOM = () => {
-  const testBtn = document.createElement("testButton") as HTMLButtonElement;
-  testBtn.innerText = "TEST BUTTON";
-  testBtn.style.position = "fixed";
-  testBtn.style.top = "50%";
-  testBtn.style.left = "50%";
-  testBtn.style.transform = "translate(-50%, -50%)";
+  const testBtn = document.createElement("button") as HTMLButtonElement;
+  testBtn.textContent = "TEST BUTTON";
+  setButtonStyle(testBtn);
   testBtn.addEventListener(
     "click",
     async function () {
