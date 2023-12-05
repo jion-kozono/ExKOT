@@ -48,7 +48,7 @@ export const messages = {
 export const ATTENDANCE_STATUS = {
   COME: "come",
   LEAVE: "leave",
-  BREAK: "leave",
+  BREAK: "break",
   RESTART: "restart",
 } as const;
 
