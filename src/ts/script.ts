@@ -85,7 +85,8 @@ const setComingButtonEventListener = (): HTMLElement => {
   // 出勤ボタン押下時
   comingBtn.addEventListener(
     "click",
-    async function () {
+    async function (event) {
+      console.log(event);
       if (!isComingButtonDisabled) {
         hideButton(ATTENDANCE_STATUS.COME);
         await sendAttendanceReport(ATTENDANCE_STATUS.COME);
@@ -107,12 +108,13 @@ const setLeavingButtonEventListener = (): HTMLElement => {
   // 退勤ボタン押下時
   leavingBtn.addEventListener(
     "click",
-    async function () {
+    async function (event) {
+      console.log(event);
       if (!isLeavingButtonDisabled) {
         hideButton(ATTENDANCE_STATUS.LEAVE);
+        await sendAttendanceReport(ATTENDANCE_STATUS.LEAVE);
         // 休憩、再開ボタンの非表示
         hideBreakAndRestartButtonInDOM();
-        await sendAttendanceReport(ATTENDANCE_STATUS.LEAVE);
       }
     },
     false,

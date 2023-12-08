@@ -1,4 +1,4 @@
-import { ATTENDANCE_STATUS } from "../const";
+import { ATTENDANCE_STATUS, COLOR } from "../const";
 import { sendAttendanceReport } from "../send";
 
 import { setButtonStyle } from "./Button";
@@ -13,7 +13,7 @@ export const setBreakButtonInDOM = () => {
   breakBtn = document.createElement("button") as HTMLButtonElement;
   breakBtn.id = "breakButton";
   breakBtn.textContent = "休憩";
-  setButtonStyle(breakBtn);
+  setButtonStyle(breakBtn, COLOR.BREAK);
   breakBtn.addEventListener(
     "click",
     async function () {
@@ -34,7 +34,7 @@ export const setRestartButtonInDOM = () => {
   restartBtn = document.createElement("button") as HTMLButtonElement;
   restartBtn.id = "restartButton";
   restartBtn.textContent = "再開";
-  setButtonStyle(restartBtn);
+  setButtonStyle(restartBtn, COLOR.RESTART);
   restartBtn.addEventListener(
     "click",
     async function () {

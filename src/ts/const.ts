@@ -70,4 +70,9 @@ export type SettingItemObjectType = {
 };
 export const SETTING_ITEM_LIST = Object.values(SETTING_ITEM_OBJECT);
 
+export const COLOR = {
+  BREAK: "FFA732",
+  RESTART: "#4caf50",
+};
+
 export const APP_ENV: "dev" | "prod" = "dev";
