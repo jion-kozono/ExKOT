@@ -1,6 +1,8 @@
 export const defaultMessage = {
   defaultComingMessage: "勤務開始します。",
   defaultLeavingMessage: "勤務終了します。",
+  defaultBreakingMessage: "休憩します。",
+  defaultRestartingMessage: "再開します。",
 } as const;
 
 export const channelName = "discord";
@@ -41,5 +43,36 @@ export const messages = {
     "勤怠報告をするには、拡張機能の「オプション画面」にて送信したいチャンネルのwebhookのUrlを指定する必要があります。",
   SUCCESS_CLOCKED: "打刻は正常に行われています。",
   FAILED_SEND_MESSAGE: "メッセージを正常に送信できませんでした。",
+  FAILED_GET_HTML_ELEMENT: "HTML要素の取得に失敗しました。",
 };
+
+export const ATTENDANCE_STATUS = {
+  COME: "come",
+  LEAVE: "leave",
+  BREAK: "break",
+  RESTART: "restart",
+} as const;
+
+export type AttendanceStatusTye = (typeof ATTENDANCE_STATUS)[keyof typeof ATTENDANCE_STATUS];
+
+export const SETTING_ITEM_OBJECT = {
+  DISCORD_WEBHOOK_URL: "discordWebhookUrl",
+  COMING_MESSAGE: "comingMessage",
+  LEAVING_MESSAGE: "leavingMessage",
+  BREAKING_MESSAGE: "breakingMessage",
+  RESTARTING_MESSAGE: "restartingMessage",
+} as const;
+
+type SettingItemObjectKeyType = (typeof SETTING_ITEM_OBJECT)[keyof typeof SETTING_ITEM_OBJECT];
+export type PartialSettingItemObjectType = Partial<SettingItemObjectType>;
+export type SettingItemObjectType = {
+  [key in SettingItemObjectKeyType]: string;
+};
+export const SETTING_ITEM_LIST = Object.values(SETTING_ITEM_OBJECT);
+
+export const COLOR = {
+  BREAK: "#FFA732",
+  RESTART: "#4caf50",
+};
+
 export const APP_ENV: "dev" | "prod" = "dev";

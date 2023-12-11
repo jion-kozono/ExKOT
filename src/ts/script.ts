@@ -1,5 +1,23 @@
+import {
+  hideBreakAndRestartButtonInDOM,
+  setBreakButtonInDOM,
+  setRestartButtonInDOM,
+} from "./components/BreakRestartButton";
 import { setTestButtonInDOM } from "./components/TestButton";
-import { APP_ENV, channelDomain, channelName, defaultMessage, innerHTML, messages } from "./const";
+import {
+  APP_ENV,
+  ATTENDANCE_STATUS,
+  AttendanceStatusTye,
+  channelDomain,
+  channelName,
+  innerHTML,
+  messages,
+} from "./const";
+import { sendAttendanceReport } from "./send";
+import {
+  getAttendanceStatusFromChromeStorage,
+  getSettingsFromChromeStorage,
+} from "./storage/storage";
 
 const loadingElement = document.createElement("div");
 loadingElement.innerHTML = innerHTML;
@@ -14,103 +32,40 @@ let leavingBtn: HTMLElement;
 let isComingButtonDisabled = false;
 let isLeavingButtonDisabled = true;
 
-// chrome拡張のストレージから設定データ取得
-const getSettingsFromChromeStorage = async (): Promise<{
-  discordWebhookUrl: string;
-  name: string;
-  comingMessage: string;
-  leavingMessage: string;
-}> => {
-  const items = (await chrome.storage.sync.get([
-    "discordWebhookUrl",
-    "name",
-    "comingMessage",
-    "leavingMessage",
-  ])) as {
-    discordWebhookUrl: string;
-    name: string;
-    comingMessage: string;
-    leavingMessage: string;
-  };
-
-  if (!items.comingMessage) items.comingMessage = defaultMessage.defaultComingMessage;
-  if (!items.leavingMessage) items.leavingMessage = defaultMessage.defaultLeavingMessage;
-  return items;
-};
-
-// 初期ロード時にchrome拡張のストレージから出勤ステータス取得
-const getAttendanceStatusFromChromeStorage = async (): Promise<boolean | undefined> => {
-  const items = (await chrome.storage.sync.get(["attendanceStatus"])) as {
-    attendanceStatus: boolean;
-  };
-
-  const attendanceStatus = items.attendanceStatus;
-  // TODO* console.oog(外す)
-  console.log({ attendanceStatus });
-  if (attendanceStatus) {
-    disableButton(true);
-    window.alert("現在出勤中です。");
-  }
-
-  return attendanceStatus;
-};
-
-const setAttendanceStatusToChromeStorage = (attendanceStatus: boolean): void => {
-  // 保存後、必要であれば再度初期値を設定する
-  chrome.storage.sync.set({
-    attendanceStatus,
-  });
-};
-
 // KOTのタイムレコーダーページでイベントリスナーを設定
 async function setEventListener() {
   if (APP_ENV === "dev") {
-    setTestButtonInDOM(sendAttendanceReport);
+    setTestButtonInDOM();
   }
+  const attendanceStatus = await getAttendanceStatusFromChromeStorage();
+  console.log({ attendanceStatus });
+  setComingButtonEventListener();
+  setLeavingButtonEventListener();
 
-  recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
-  // 出勤ボタン
-  comingBtn = recordBtnOuters[0] as HTMLElement;
-  // 退勤ボタン
-  leavingBtn = recordBtnOuters[1] as HTMLElement;
-
-  await getAttendanceStatusFromChromeStorage();
-
-  if (!comingBtn || !leavingBtn) return;
-
-  // 出勤ボタン押下時
-  comingBtn.addEventListener(
-    "click",
-    async function () {
-      if (!isComingButtonDisabled) {
-        disableButton(true);
-        await sendAttendanceReport(true);
-      }
-    },
-    false,
-  );
-
-  // 退勤ボタン押下時
-  leavingBtn.addEventListener(
-    "click",
-    async function () {
-      if (!isLeavingButtonDisabled) {
-        disableButton(false);
-        await sendAttendanceReport(false);
-      }
-    },
-    false,
-  );
   // 退勤ボタンは初期時押せない
   if (isLeavingButtonDisabled) {
     leavingBtn.style.display = "none";
   }
-  const { discordWebhookUrl } = await getSettingsFromChromeStorage();
+  const settingItemObject = await getSettingsFromChromeStorage();
 
-  if (!discordWebhookUrl?.startsWith(channelDomain)) {
+  if (!settingItemObject.discordWebhookUrl.startsWith(channelDomain)) {
     window.alert(messages.URL_SETTING_ALERT);
   } else {
     window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+  }
+
+  if (attendanceStatus && attendanceStatus !== ATTENDANCE_STATUS.LEAVE) {
+    hideButton(ATTENDANCE_STATUS.COME);
+  }
+  if (
+    attendanceStatus === ATTENDANCE_STATUS.COME ||
+    attendanceStatus === ATTENDANCE_STATUS.RESTART
+  ) {
+    window.alert("現在出勤中です。");
+    setBreakButtonInDOM();
+  } else if (attendanceStatus === ATTENDANCE_STATUS.BREAK) {
+    setRestartButtonInDOM();
+    window.alert("現在休憩中です。");
   }
 
   // ローディング画面を非表示
@@ -121,52 +76,71 @@ async function setEventListener() {
   }
 }
 
-//出勤、退勤ボタン押下時に処理を挿入
-async function sendAttendanceReport(attendanceStatus: boolean) {
-  setAttendanceStatusToChromeStorage(attendanceStatus);
-  const { discordWebhookUrl, comingMessage, leavingMessage } = await getSettingsFromChromeStorage();
+const setComingButtonEventListener = (): HTMLElement => {
+  recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
+  // 出勤ボタン
+  comingBtn = recordBtnOuters[0] as HTMLElement;
+  if (!comingBtn) throw new Error(messages.FAILED_GET_HTML_ELEMENT);
 
-  if (!discordWebhookUrl?.startsWith(channelDomain)) {
-    window.alert(`
-    ${messages.URL_SETTING_ALERT}
-    ${messages.SUCCESS_CLOCKED}
-    `);
-    return;
-  }
+  // 出勤ボタン押下時
+  comingBtn.addEventListener(
+    "click",
+    async function (event) {
+      console.log(event);
+      if (!isComingButtonDisabled) {
+        hideButton(ATTENDANCE_STATUS.COME);
+        await sendAttendanceReport(ATTENDANCE_STATUS.COME);
+        setBreakButtonInDOM();
+      }
+    },
+    false,
+  );
+  return comingBtn;
+};
 
-  const message = attendanceStatus ? comingMessage : leavingMessage;
-  const param = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content: message,
-    }),
-  };
+const setLeavingButtonEventListener = (): HTMLElement => {
+  recordBtnOuters = document.querySelectorAll(".record-btn-outer.record");
+  // 退勤ボタン
+  leavingBtn = recordBtnOuters[1] as HTMLElement;
 
-  fetch(discordWebhookUrl, param).then((response) => {
-    if (response.ok) {
-      window.alert(`${channelName}チャネルに"${message}"というメッセージが送信されました。`);
-    } else {
-      console.error("error", response);
-      window.alert(messages.FAILED_SEND_MESSAGE);
-    }
-  });
-}
+  if (!leavingBtn) throw new Error(messages.FAILED_GET_HTML_ELEMENT);
 
-const disableButton = (attendanceStatus: boolean) => {
-  if (attendanceStatus) {
+  // 退勤ボタン押下時
+  leavingBtn.addEventListener(
+    "click",
+    async function (event) {
+      console.log(event);
+      if (!isLeavingButtonDisabled) {
+        hideButton(ATTENDANCE_STATUS.LEAVE);
+        await sendAttendanceReport(ATTENDANCE_STATUS.LEAVE);
+        // 休憩、再開ボタンの非表示
+        hideBreakAndRestartButtonInDOM();
+      }
+    },
+    false,
+  );
+  return leavingBtn;
+};
+
+const hideButton = (attendanceStatus: AttendanceStatusTye) => {
+  if (attendanceStatus === ATTENDANCE_STATUS.COME) {
     isComingButtonDisabled = true;
     isLeavingButtonDisabled = false;
     // ボタンの無効化処理
     comingBtn.style.display = "none";
     // 退勤ボタンの活性化
+    if (!leavingBtn) {
+      leavingBtn = setLeavingButtonEventListener();
+    }
     leavingBtn.style.display = "";
   } else {
     isLeavingButtonDisabled = true;
     isComingButtonDisabled = false;
     // ボタンの無効化処理
     leavingBtn.style.display = "none";
-    // 出勤ボタンの活性化
+    if (!comingBtn) {
+      comingBtn = setComingButtonEventListener();
+    }
     comingBtn.style.display = "";
   }
 };

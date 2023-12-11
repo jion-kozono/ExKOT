@@ -1,16 +1,16 @@
-export const setTestButtonInDOM = (
-  sendAttendanceReport: (attendanceStatus: boolean) => Promise<void>,
-) => {
+import { ATTENDANCE_STATUS } from "../const";
+import { sendAttendanceReport } from "../send";
+
+import { setButtonStyle } from "./Button";
+
+export const setTestButtonInDOM = () => {
   const testBtn = document.createElement("button") as HTMLButtonElement;
-  testBtn.innerText = "TEST BUTTON";
-  testBtn.style.position = "fixed";
-  testBtn.style.top = "50%";
-  testBtn.style.left = "50%";
-  testBtn.style.transform = "translate(-50%, -50%)";
+  testBtn.textContent = "TEST BUTTON";
+  setButtonStyle(testBtn);
   testBtn.addEventListener(
     "click",
     async function () {
-      await sendAttendanceReport(true);
+      await sendAttendanceReport(ATTENDANCE_STATUS.COME);
     },
     false,
   );
