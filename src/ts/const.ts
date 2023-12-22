@@ -71,7 +71,7 @@ export type SettingItemObjectType = {
 export const SETTING_ITEM_LIST = Object.values(SETTING_ITEM_OBJECT);
 
 export const COLOR = {
-  BREAK: "#FFA732",
+  BREAK: "#ffa732",
   RESTART: "#4caf50",
 };
 
