@@ -1,4 +1,4 @@
-import { ATTENDANCE_STATUS } from "../const";
+import { ATTENDANCE_STATUS, COLOR } from "../const";
 import { sendAttendanceReport } from "../send";
 
 import { setButtonStyle } from "./Button";
@@ -6,7 +6,7 @@ import { setButtonStyle } from "./Button";
 export const setTestButtonInDOM = () => {
   const testBtn = document.createElement("button") as HTMLButtonElement;
   testBtn.textContent = "TEST BUTTON";
-  setButtonStyle(testBtn);
+  setButtonStyle(testBtn, COLOR.TEST);
   testBtn.addEventListener(
     "click",
     async function () {

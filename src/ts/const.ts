@@ -73,6 +73,7 @@ export const SETTING_ITEM_LIST = Object.values(SETTING_ITEM_OBJECT);
 export const COLOR = {
   BREAK: "#ffa732",
   RESTART: "#4caf50",
+  TEST: "#3498db",
 };
 
 export const APP_ENV: "dev" | "prod" = "dev";
