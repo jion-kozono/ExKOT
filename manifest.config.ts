@@ -5,7 +5,7 @@ export const manifest = defineManifest({
   manifest_version: 3,
   name: "ExKOT for WEB",
   description: "The extension for King of Time",
-  version: "1.0.4",
+  version: "1.0.5",
   content_security_policy: {
     extension_pages: "script-src 'self'; object-src 'self';",
     sandbox: "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self';",

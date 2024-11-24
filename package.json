@@ -7,7 +7,7 @@
     "tree": "tree -I 'node_modules|dist.zip'"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "@crxjs/vite-plugin": "2.0.0-beta.26",
     "@types/chrome": "0.0.253",
     "@typescript-eslint/eslint-plugin": "6.12.0",
     "@typescript-eslint/parser": "6.12.0",
@@ -26,6 +26,6 @@
   },
   "volta": {
     "node": "18.18.2",
-    "pnpm": "8.11.0"
+    "pnpm": "9.14.2"
   }
 }
