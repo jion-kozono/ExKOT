@@ -65,6 +65,31 @@ pnpm build:d
 When testing, open `chrome://extensions/`.
 And turn on Developer mode. Then, load the generated `dist` directory of this project using [Load unpacked].
 
+### Deploy
+
+```sh
+# build
+pnpm build:p
+```
+
+### デプロイ
+
+```sh
+# build
+pnpm build:d
+```
+
+Release the file (`root/dist.zip`) built with the following procedure
+
+- Go to the [Chrome Web Store Developer Dashboard for ExKOT for WEB](https://chrome.google.com/webstore/devconsole/f304d152-f2cf-44b2-a0fb-2baf1f181708/fkojkakbnmpfjdikmgddpjlbkaepolng/edit)
+- Click on "Packages" on the left site bar
+- Click on "Upload new package" in the upper right corner
+- Upload `root/dist.zip` that you just built
+- Click "Store listing information" or "Privacy" on the left site bar
+- Edit any content you wish to edit
+- Click "Submit for Review" in the upper right corner.
+- If the review is approved, the file will be published.
+
 ## License
 
 This project is licensed under the [License Name]. For more details, please see the [LICENSE](./LICENSE) file.
@@ -128,6 +153,24 @@ pnpm build:d
 
 テスト時には、`chrome://extensions/` を開いてください。
 そして、開発者モードを有効にしてください。その後、このプロジェクトの生成された `dist` ディレクトリを [パッケージ化されていない拡張機能を読み込む] を使用して読み込んでください。
+
+### デプロイ
+
+```sh
+# build
+pnpm build:p
+```
+
+でビルドしたファイル(`root/dist.zip`)を以下手順で公開する
+
+- [Chrome Web Store Developer Dashboard for ExKOT for WEB](https://chrome.google.com/webstore/devconsole/f304d152-f2cf-44b2-a0fb-2baf1f181708/fkojkakbnmpfjdikmgddpjlbkaepolng/edit)ページに行く
+- 左サイトバーの「パッケージ」をクリック
+- 右上の「新しいパッケージをアップロード」をクリック
+- 先程ビルドした`root/dist.zip`をアップロード
+- 左サイトバーの「ストアの掲載情報」か「プライバシー」をクリック
+- 編集する内容があれば編集
+- 右上の「審査のため送信」をクリック
+- 審査が通れば公開されます
 
 ## ライセンス
 
