@@ -54,7 +54,9 @@ export const sendAttendanceReport = async (attendanceStatus: AttendanceStatusTye
 
   fetch(settingItemObject.discordWebhookUrl, param).then((response) => {
     if (response.ok) {
-      window.alert(`${channelName}チャネルに"${message}"というメッセージが送信されました。`);
+      if (settingItemObject.showAlarmCheckbox === "true") {
+        window.alert(`${channelName}チャネルに"${message}"というメッセージが送信されました。`);
+      }
     } else {
       console.error("error", response);
       window.alert(messages.FAILED_SEND_MESSAGE);

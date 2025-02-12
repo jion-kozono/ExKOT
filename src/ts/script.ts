@@ -50,7 +50,9 @@ async function setEventListener() {
   if (!settingItemObject.discordWebhookUrl.startsWith(channelDomain)) {
     window.alert(messages.URL_SETTING_ALERT);
   } else {
-    window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+    if (settingItemObject.showAlarmCheckbox === "true") {
+      window.alert(`打刻すると指定した${channelName}チャネルに勤怠報告が送信されます。`);
+    }
   }
 
   if (attendanceStatus && attendanceStatus !== ATTENDANCE_STATUS.LEAVE) {
@@ -60,11 +62,15 @@ async function setEventListener() {
     attendanceStatus === ATTENDANCE_STATUS.COME ||
     attendanceStatus === ATTENDANCE_STATUS.RESTART
   ) {
-    window.alert("現在出勤中です。");
+    if (settingItemObject.showAlarmCheckbox === "true") {
+      window.alert("現在出勤中です。");
+    }
     setBreakButtonInDOM();
   } else if (attendanceStatus === ATTENDANCE_STATUS.BREAK) {
     setRestartButtonInDOM();
-    window.alert("現在休憩中です。");
+    if (settingItemObject.showAlarmCheckbox === "true") {
+      window.alert("現在休憩中です。");
+    }
   }
 
   // ローディング画面を非表示

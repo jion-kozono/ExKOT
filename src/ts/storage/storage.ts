@@ -15,10 +15,12 @@ export const getSettingsFromChromeStorage = async (): Promise<SettingItemObjectT
 
   return {
     discordWebhookUrl: settingItemObject.discordWebhookUrl || "",
-    comingMessage: defaultMessage.defaultComingMessage,
-    leavingMessage: defaultMessage.defaultLeavingMessage,
-    breakingMessage: defaultMessage.defaultBreakingMessage,
-    restartingMessage: defaultMessage.defaultRestartingMessage,
+    comingMessage: settingItemObject.comingMessage || defaultMessage.defaultComingMessage,
+    leavingMessage: settingItemObject.leavingMessage || defaultMessage.defaultLeavingMessage,
+    breakingMessage: settingItemObject.breakingMessage || defaultMessage.defaultBreakingMessage,
+    restartingMessage:
+      settingItemObject.restartingMessage || defaultMessage.defaultRestartingMessage,
+    showAlarmCheckbox: settingItemObject.showAlarmCheckbox || "true",
   };
 };
 

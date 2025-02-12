@@ -61,6 +61,7 @@ export const SETTING_ITEM_OBJECT = {
   LEAVING_MESSAGE: "leavingMessage",
   BREAKING_MESSAGE: "breakingMessage",
   RESTARTING_MESSAGE: "restartingMessage",
+  SHOW_ALARM_CHECKBOX: "showAlarmCheckbox",
 } as const;
 
 type SettingItemObjectKeyType = (typeof SETTING_ITEM_OBJECT)[keyof typeof SETTING_ITEM_OBJECT];

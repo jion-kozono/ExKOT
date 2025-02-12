@@ -28,8 +28,25 @@
         <label for="restartingMessage">再開時のメッセージ:</label>
         <input type="text" id="restartingMessage" name="restartingMessage" />
 
+        <div
+          style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start"
+        >
+          <label for="showAlarmCheckbox" style="width: 85%; text-align: left; font-size: 13px"
+            >イベントメッセージをアラームで表示する</label
+          >
+          <input
+            type="checkbox"
+            id="showAlarmCheckbox"
+            name="showAlarmCheckbox"
+            style="width: 15%"
+          />
+        </div>
+
         <button id="saveBtn" type="button">Save</button>
       </form>
+      <div id="alert">
+        <p id="alertMessage"></p>
+      </div>
     </div>
     <script src="../ts/options.ts" type="module"></script>
   </body>
